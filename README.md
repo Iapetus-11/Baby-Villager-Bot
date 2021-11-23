@@ -1,30 +1,15 @@
-# **Villager Bot**
-[![CodeFactor](https://www.codefactor.io/repository/github/iapetus-11/villager-bot/badge)](https://www.codefactor.io/repository/github/iapetus-11/villager-bot)
-[![Views](https://api.ghprofile.me/view?username=villager-dev.villager-bot&color=0FAE6E&label=views&style=flat)](https://github.com/Iapetus-11/Villager-Bot)
-[![Bot Status](https://top.gg/api/widget/status/639498607632056321.svg?noavatar=true)](https://top.gg/bot/639498607632056321)
-[![Server Count](https://top.gg/api/widget/servers/639498607632056321.svg?noavatar=true)](https://top.gg/bot/639498607632056321)
-[![Support Server](https://img.shields.io/discord/641117791272960031?color=0FAE6E&label=discord%20server)](https://discord.gg/39DwwUV)
+# **Baby Villager Bot**
 
-## Cool / Notable Features
-* Ability to generate Minecraft pixel art from images sent in the chat
-* Ability to ping / check the status of any Minecraft server
-* Expansive economy system (based upon emeralds obviously!)
-* Multi-language support! (English, Español, Français, Português)
-* Tons of customization and configuration options
-
-## Support / Contact Information
-* [Discord Support Server](https://discord.gg/39DwwUV)
-* Discord Username: `Iapetus11#6821`
-
-## Privacy Policy
-- [Click Here](https://github.com/Iapetus-11/Villager-Bot/blob/main/PRIVACY-POLICY.md)
-
-## Contributing
-### Issues / Bugs
-If a bug or unintended behavior is discovered, please report it by creating an issue [here](https://github.com/Iapetus-11/Villager-Bot/issues) or by reporting it in the **#bug-smasher** channel on the [support server](https://discord.gg/39DwwUV).
+## What is this?
+* Baby Villager Bot is a project to simultaneously allow development / brainstorming of new features on [Villager Bot](https://github.com/Iapetus-11/Villager-Bot) and facilitate the teaching and learning of software development skills to those who contribute.
+* Users may contribute code that isn't up to the stricter standards of the original repository and while learning can contribute to the future of Villager Bot.
+* Trusted users may push changes without submitting pull requests first
+* Some features may be taken from this bot and added into the main bot after being polished.
 
 ### Development
-If you'd like to contribute code to Villager Bot, then please fork the repository and make any necessary changes there. Then, [make a pull request](https://github.com/Iapetus-11/Villager-Bot/pulls) and it will be reviewed. Please read the [contribution guidelines](https://github.com/Iapetus-11/Villager-Bot/blob/master/CONTRIBUTING.md) before making changes.
+* If you have any questions or want to become a trusted contributor, please join the [Discord support server](https://discord.gg/39DwwUV) for Villager Bot and use the **#tech-chat** channel.
+* Please test before pushing changes, if you break something, you need to fix it.
+* You do not need to update the translations, just use a normal string instead of accessing the language dictionary (`ctx.l`).
 
 ### Setting up Villager Bot
 1. `git clone` Villager Bot, and `cd` into the `Villager-Bot` directory.
