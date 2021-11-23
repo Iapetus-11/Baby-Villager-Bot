@@ -12,6 +12,8 @@ import random
 import arrow
 import numpy
 
+from trusted_contributors import discord_ids
+
 from util.setup import villager_bot_intents, setup_logging, setup_database_pool
 from util.cooldowns import CommandOnKarenCooldown, MaxKarenConcurrencyReached
 from util.ipc import Client, PacketType, PacketHandlerRegistry, handle_packet
@@ -49,6 +51,7 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
             shard_count=shard_count,
             shard_ids=shard_ids,
             help_command=None,
+            owner_ids=discord_ids,
         )
 
         self.max_db_pool_size = max_db_pool_size
@@ -75,8 +78,8 @@ class VillagerBotCluster(commands.AutoShardedBot, PacketHandlerRegistry):
         ]
 
         # check if this is the first cluster loaded
-        if 0 in shard_ids:
-            self.cog_list.append("cogs.core.topgg")
+        # if 0 in shard_ids:
+        #     self.cog_list.append("cogs.core.topgg")
 
         self.logger = setup_logging(self.shard_ids)
         self.ipc = Client(self.k.manager.host, self.k.manager.port, self.get_packet_handlers())  # ipc client
