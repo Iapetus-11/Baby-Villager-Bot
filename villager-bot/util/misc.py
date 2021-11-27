@@ -121,6 +121,7 @@ def format_required(d: object, shop_item: object, amount: int = 1):
 
 
 async def update_support_member_role(bot, member):
+    return
     try:
         db = bot.get_cog("Database")
 
