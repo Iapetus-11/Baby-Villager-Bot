@@ -1944,7 +1944,7 @@
         "stupid_5": "You can't use more items than you have!",
         "stupid_6": "Either that isn't a usable item, or it doesn't exist.",
         "vault_max": "You cannot expand your vault further via this method.",
-        "vault_pot": "You've chugged a **Vault Potion**. Your vault space has increased by {} spaces.",
+        "vault_pot": "You've chugged {0}x **Vault Potion**. Your vault space has increased by {1} spaces.",
         "smoke_seaweed": "You've eaten some **Seaweed** which lasts **{} minutes**",
         "seaweed_done": "The **Seaweed** you ate earlier has worn off.",
         "chug": "You've chugged a **{}** which lasts **{} minutes**.",
