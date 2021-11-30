@@ -1486,7 +1486,7 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.use.stupid_5)
             return
 
-        await self.heal_logic(ctx, amount)
+        await self.heal_logic(ctx, amount = amount)
         return
 
     async def heal_logic(self, ctx, *, amount=20):
