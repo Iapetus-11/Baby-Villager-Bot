@@ -1382,7 +1382,7 @@ class Econ(commands.Cog):
             return
 
         if thing == "honey jar":
-            await self.heal_logic(ctx, amount)
+            await self.heal_logic(ctx, amount = amount)
             return
 
         if thing == "present":
