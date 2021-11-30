@@ -1459,15 +1459,14 @@ class Econ(commands.Cog):
 
     @commands.command(name="heal", aliases=[])
     # @commands.cooldown(1, 2, commands.BucketType.user)
-    async def heal(self, ctx, *, amountStr):
+    async def heal(self, ctx, *, amountStr="20"):
         """Allows you to use heal yourself using honey jars"""
 
         amountStr = amountStr.lower()
-        
         try:
             amount = int(amountStr)
         except (IndexError, ValueError):
-            amount = 1
+            amount = 20
 
         if amount < 1:
             await ctx.reply_embed(ctx.l.econ.use.stupid_3)
