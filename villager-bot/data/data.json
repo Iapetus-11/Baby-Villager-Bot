@@ -75,6 +75,7 @@
     "fish": 8,
     "pillage": 300,
     "use": 2,
+    "heal": 2,
     "honey": 86400,
     "deposit": 2,
     "withdraw": 2,

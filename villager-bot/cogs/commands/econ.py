@@ -1463,10 +1463,12 @@ class Econ(commands.Cog):
         """Allows you to use heal yourself using honey jars"""
 
         amountStr = amountStr.lower()
+        isAmountSpecified = True
         try:
             amount = int(amountStr)
         except (IndexError, ValueError):
             amount = 20
+            isAmountSpecified = False
 
         if amount < 1:
             await ctx.reply_embed(ctx.l.econ.use.stupid_3)
@@ -1482,6 +1484,9 @@ class Econ(commands.Cog):
             await ctx.reply_embed(ctx.l.econ.use.stupid_2)
             return
 
+        if not isAmountSpecified:
+            amount = min(amount, db_item["amount"])
+        
         if db_item["amount"] < amount:
             await ctx.reply_embed(ctx.l.econ.use.stupid_5)
             return
