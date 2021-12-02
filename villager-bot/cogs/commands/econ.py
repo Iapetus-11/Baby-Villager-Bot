@@ -1463,12 +1463,12 @@ class Econ(commands.Cog):
         """Allows you to use heal yourself using honey jars"""
 
         amountStr = amountStr.lower()
-        isAmountSpecified = True
+        isAmountSpecified = False
         try:
             amount = int(amountStr)
+            isAmountSpecified = True
         except (IndexError, ValueError):
             amount = 20
-            isAmountSpecified = False
 
         if amount < 1:
             await ctx.reply_embed(ctx.l.econ.use.stupid_3)
