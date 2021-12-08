@@ -175,7 +175,7 @@ class MobSpawner(commands.Cog):
                     user_action_msg = await self.bot.wait_for(
                         "message", check=self.attack_check(ctx, initial_attack_msg), timeout=30
                     )
-                    user_action = user_action_msg.content.lower()
+                    user_action = user_action_msg.content.lower().lstrip(ctx.prefix.lower())
                 except asyncio.TimeoutError:
                     timed_out = True
                 else:
