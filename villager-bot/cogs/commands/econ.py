@@ -5,6 +5,7 @@ import asyncio
 import random
 import arrow
 import math
+import numpy as np
 
 from util.misc import lb_logic, format_required, make_health_bar, calc_total_wealth, emojify_item, SuppressCtxManager
 from util.ipc import PacketType
@@ -1353,44 +1354,35 @@ class Econ(commands.Cog):
             return
 
         if thing == "vault potion":
-            if amount > 1:
-                await ctx.reply_embed(ctx.l.econ.use.stupid_1)
-                return
-
             db_user = await self.db.fetch_user(ctx.author.id)
 
             if db_user["vault_max"] > 1999:
                 await ctx.reply_embed(ctx.l.econ.use.vault_max)
                 return
+            
+            current_vault = db_user["vault_max"]
+            add_array = np.random.randint(9, 15, size=amount)
+            add_cumsum = np.cumsum(add_array)
+            add_index = np.where(add_cumsum + current_vault > 1999)
+            if(len(add_index[0]) > 0):
+                used_amount = add_index[0][0] + 1
+                add_amount = add_cumsum[add_index[0][0]]
+            else:
+                used_amount = amount
+                add_amount = add_cumsum[len(add_cumsum) - 1]
 
-            add = random.randint(9, 15)
+            if current_vault + add_amount > 1999:
+                add_amount = 2000 - current_vault
+            new_vault = current_vault + add_amount
 
-            if db_user["vault_max"] + add > 2000:
-                add = 2000 - db_user["vault_max"]
+            await self.db.remove_item(ctx.author.id, "Vault Potion", used_amount)
+            await self.db.set_vault(ctx.author.id, db_user["vault_balance"], new_vault)
 
-            await self.db.remove_item(ctx.author.id, "Vault Potion", 1)
-            await self.db.set_vault(ctx.author.id, db_user["vault_balance"], db_user["vault_max"] + add)
-
-            await ctx.reply_embed(ctx.l.econ.use.vault_pot.format(add))
+            await ctx.reply_embed(ctx.l.econ.use.vault_pot.format(used_amount, add_amount))
             return
 
         if thing == "honey jar":
-            db_user = await self.db.fetch_user(ctx.author.id)
-
-            max_amount = 20 - db_user["health"]
-            if max_amount < 1:
-                await ctx.reply_embed(ctx.l.econ.use.cant_use_any.format("Honey Jars"))
-                return
-
-            if db_user["health"] + amount > 20:
-                amount = max_amount
-
-            await self.db.update_user(ctx.author.id, health=(db_user["health"] + amount))
-            await self.db.remove_item(ctx.author.id, "Honey Jar", amount)
-
-            new_health = amount + db_user["health"]
-            await ctx.reply_embed(ctx.l.econ.use.chug_honey.format(amount, new_health, self.d.emojis.heart_full))
-
+            await self.heal_logic(ctx, amount = amount)
             return
 
         if thing == "present":
@@ -1464,6 +1456,59 @@ class Econ(commands.Cog):
             return
 
         await ctx.reply_embed(ctx.l.econ.use.stupid_6)
+
+    @commands.command(name="heal", aliases=[])
+    # @commands.cooldown(1, 2, commands.BucketType.user)
+    async def heal(self, ctx, *, amountStr="20"):
+        """Allows you to use heal yourself using honey jars"""
+
+        amountStr = amountStr.lower()
+        try:
+            amount = int(amountStr)
+        except (IndexError, ValueError):
+            amount = 20
+
+        if amount < 1:
+            await ctx.reply_embed(ctx.l.econ.use.stupid_3)
+            return
+
+        if amount > 100:
+            await ctx.reply_embed(ctx.l.econ.use.stupid_4)
+            return
+
+        db_item = await self.db.fetch_item(ctx.author.id, "Honey Jar")
+
+        if db_item is None:
+            await ctx.reply_embed(ctx.l.econ.use.stupid_2)
+            return
+
+        amount = min(amount, db_item["amount"])
+        
+        if db_item["amount"] < amount:
+            await ctx.reply_embed(ctx.l.econ.use.stupid_5)
+            return
+
+        await self.heal_logic(ctx, amount = amount)
+        return
+
+    async def heal_logic(self, ctx, *, amount=20):
+        db_user = await self.db.fetch_user(ctx.author.id)
+
+        max_amount = 20 - db_user["health"]
+        if max_amount < 1:
+            await ctx.reply_embed(ctx.l.econ.use.cant_use_any.format("Honey Jars"))
+            return
+
+        if db_user["health"] + amount > 20:
+            amount = max_amount
+
+        await self.db.update_user(ctx.author.id, health=(db_user["health"] + amount))
+        await self.db.remove_item(ctx.author.id, "Honey Jar", amount)
+
+        new_health = amount + db_user["health"]
+        await ctx.reply_embed(ctx.l.econ.use.chug_honey.format(amount, new_health, self.d.emojis.heart_full))
+
+        return
 
     @commands.command(name="honey", aliases=["harvesthoney", "horny"])  # ~~a strange urge occurs in me~~
     # @commands.cooldown(1, 24 * 60 * 60, commands.BucketType.user)
